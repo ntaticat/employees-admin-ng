@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="login-card-container">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>Iniciar Sesión</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="login-card-content">
+        <form
+          [formGroup]="signinForm"
+          (submit)="onSubmitLogin()"
+          class="login-card-left">
+          <div class="login-card-inputs">
+            <p>Debes iniciar sesión para acceder al sistema</p>
+            <div class="">
+              <mat-form-field class="">
+                <mat-label>Correo</mat-label>
+                <input
+                  type="email"
+                  matInput
+                  formControlName="email"
+                  placeholder="Ej. nombre@correo.com" />
+                <mat-error
+                  *ngIf="
+                    getEmail().hasError('email') ||
+                    getEmail().hasError('required')
+                  ">
+                  Por favor ingresa un email válido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="">
+                <mat-label>Contraseña</mat-label>
+                <input type="password" matInput formControlName="password" />
+                <mat-error *ngIf="getEmail().hasError('required')">
+                  Por favor ingresa una contraseña
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="login-card-button-container">
+            <button type="submit" mat-fab extended color="primary">
+              <mat-icon>keyboard_arrow_right</mat-icon>
+              Acceder
+            </button>
+          </div>
+        </form>
+        <div class="login-card-right">
+          <div class="login-card-image-container">
+            <img
+              class="login-card-image"
+              src="./assets/img/userfreesvg.svg"
+              alt="user login image" />
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
