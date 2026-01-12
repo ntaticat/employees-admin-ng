@@ -21,8 +21,8 @@
                   placeholder="Ej. nombre@correo.com" />
                 <mat-error
                   *ngIf="
-                    getEmail().hasError('email') ||
-                    getEmail().hasError('required')
+                    getEmailControl().hasError('email') ||
+                    getEmailControl().hasError('required')
                   ">
                   Por favor ingresa un email válido
                 </mat-error>
@@ -31,7 +31,7 @@
               <mat-form-field class="">
                 <mat-label>Contraseña</mat-label>
                 <input type="password" matInput formControlName="password" />
-                <mat-error *ngIf="getEmail().hasError('required')">
+                <mat-error *ngIf="getEmailControl().hasError('required')">
                   Por favor ingresa una contraseña
                 </mat-error>
               </mat-form-field>

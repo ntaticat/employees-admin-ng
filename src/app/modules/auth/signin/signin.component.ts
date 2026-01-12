@@ -1,3 +1,4 @@
+import { AuthApiService } from './../../../data/services/auth-api.service';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -6,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ILoginPost } from 'src/app/data/interfaces/user';
 
 @Component({
   selector: 'app-signin',
@@ -15,22 +17,31 @@ import { Router } from '@angular/router';
 export class SigninComponent {
   signinForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authApiService: AuthApiService) {
     this.signinForm = this.fb.group({
       email: ['', Validators.required, Validators.email],
       password: ['', Validators.required],
     });
   }
 
-  getEmail() {
+  getEmailControl() {
     return this.signinForm.get('email') as FormControl;
   }
 
-  getPassword() {
+  getPasswordControl() {
     return this.signinForm.get('password') as FormControl;
   }
 
   onSubmitLogin() {
-    this.router.navigateByUrl('/employees');
+    if (!this.signinForm.invalid) {
+      const data: ILoginPost = {
+        email: this.getEmailControl().value,
+        password: this.getPasswordControl().value
+      };
+
+      this.authApiService.login(data).subscribe(() => {
+        this.router.navigateByUrl('/employees');
+      });
+    }
   }
 }
