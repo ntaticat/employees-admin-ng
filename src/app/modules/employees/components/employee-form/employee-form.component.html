@@ -1,0 +1,125 @@
+<div class="employee-form-page">
+  <div class="employee-form-header">
+    <button mat-icon-button (click)="onCancel()" matTooltip="Volver">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>{{ isEditMode ? 'Editar Empleado' : 'Nuevo Empleado' }}</h2>
+  </div>
+
+  <!-- Estado de carga (modo editar) -->
+  <div *ngIf="isLoading" class="employee-form-loading">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+
+  <form
+    *ngIf="!isLoading"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="employee-form-card"
+    novalidate>
+    <mat-card>
+      <mat-card-content>
+        <div class="employee-form-grid">
+          <!-- Nombre -->
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" placeholder="Juan" />
+            <mat-error *ngIf="hasError('name', 'required')">
+              El nombre es obligatorio
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Apellido Paterno -->
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido Paterno</mat-label>
+            <input matInput formControlName="middleName" placeholder="Pérez" />
+            <mat-error *ngIf="hasError('middleName', 'required')">
+              El apellido paterno es obligatorio
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Apellido Materno -->
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido Materno</mat-label>
+            <input matInput formControlName="surName" placeholder="García" />
+            <mat-error *ngIf="hasError('surName', 'required')">
+              El apellido materno es obligatorio
+            </mat-error>
+          </mat-form-field>
+
+          <!-- CURP -->
+          <mat-form-field appearance="outline">
+            <mat-label>CURP</mat-label>
+            <input
+              matInput
+              formControlName="curp"
+              placeholder="PEGJ850101HDFRZN09"
+              maxlength="18" />
+            <mat-hint align="end"
+              >{{ form.get('curp')?.value?.length || 0 }}/18</mat-hint
+            >
+            <mat-error *ngIf="hasError('curp', 'required')">
+              La CURP es obligatoria
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasError('curp', 'minlength') || hasError('curp', 'maxlength')
+              ">
+              La CURP debe tener exactamente 18 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Teléfono -->
+          <mat-form-field appearance="outline">
+            <mat-label>Teléfono</mat-label>
+            <input
+              matInput
+              formControlName="phoneNumber"
+              placeholder="+525512345678"
+              maxlength="13" />
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error *ngIf="hasError('phoneNumber', 'required')">
+              El teléfono es obligatorio
+            </mat-error>
+            <mat-error *ngIf="hasError('phoneNumber', 'pattern')">
+              Ingresa código internacional (+52) y 10 dígitos, sin espacios
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Email -->
+          <mat-form-field appearance="outline">
+            <mat-label>Correo electrónico</mat-label>
+            <input
+              matInput
+              formControlName="email"
+              placeholder="juan@empresa.com"
+              type="email" />
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="hasError('email', 'required')">
+              El correo es obligatorio
+            </mat-error>
+            <mat-error *ngIf="hasError('email', 'email')">
+              Ingresa un correo válido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-stroked-button type="button" (click)="onCancel()">
+          Cancelar
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isSaving">
+          <mat-spinner *ngIf="isSaving" diameter="20"></mat-spinner>
+          <span *ngIf="!isSaving">
+            {{ isEditMode ? 'Guardar cambios' : 'Registrar' }}
+          </span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

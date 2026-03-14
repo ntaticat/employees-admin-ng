@@ -14,6 +14,11 @@ const routes: Routes = [
         m => m.EmployeesModule
       ),
   },
+  {
+    path: '**',
+    redirectTo: 'auth',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
